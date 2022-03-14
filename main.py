@@ -24,6 +24,7 @@ for i in range(26):
 
 # fonts
 LETTER_FONT = pygame.font.SysFont("comicsans", 40)
+WORD_FONT = pygame.font.SysFont("comicsans", 60)
   
 #load images
 images = []
@@ -33,6 +34,8 @@ for i in range(7):
 
 #game variables
 hangman_status = 0
+word = "DEVELOPER"
+guessed = []
 
 #colors
 WHITE = (255,255,255)
@@ -46,6 +49,17 @@ run = True
 def draw():
   # update and refresh the display + draw current hangman status
   win.fill(WHITE)
+
+  # draw word
+  display_word = ""
+  for letter in word:
+    # check if letter is inside of guessed[]
+    if letter in guessed:
+      display_word += letter + " "
+    else:
+      display_word += "_ "
+  text = WORD_FONT.render(display_word, 1, BLACK)
+  win.blit(text, (400, 200))
 
   # draw buttons
   for letter in letters:
@@ -75,6 +89,7 @@ while run:
           dis = math.sqrt((x - m_x)**2 + (y - m_y)**2) # determine the distance between two points
           if dis < RADIUS:
             letter[3] = False
+            guessed.append(ltr)
       
 
 pygame.quit()
