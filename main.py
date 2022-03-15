@@ -1,5 +1,6 @@
 import pygame
 import math
+import random
 import os
 
 pygame.init()
@@ -25,6 +26,7 @@ for i in range(26):
 # fonts
 LETTER_FONT = pygame.font.SysFont("comicsans", 40)
 WORD_FONT = pygame.font.SysFont("comicsans", 60)
+TITLE_FONT = pygame.font.SysFont("comicsans", 70)
   
 #load images
 images = []
@@ -34,21 +36,21 @@ for i in range(7):
 
 #game variables
 hangman_status = 0
-word = "DEVELOPER"
+words = ["IDE", "REPLIT", "PYTHON", "PYGAME", "GITHUB", "DEVELOPER"]
+word = random.choice(words)
 guessed = []
 
 #colors
 WHITE = (255,255,255)
 BLACK = (0,0,0)
 
-#setup game loop
-FPS = 60 # max Frames per Second
-clock = pygame.time.Clock()
-run = True
-
 def draw():
   # update and refresh the display + draw current hangman status
   win.fill(WHITE)
+  
+  # draw title
+  text = TITLE_FONT.render("DEVELOPER HANGMAN", 1, BLACK)
+  win.blit(text, (WIDTH/2 - text.get_width()/2, 20))
 
   # draw word
   display_word = ""
@@ -80,10 +82,16 @@ def display_message(message):
   pygame.display.update()
   pygame.time.delay(3000)
 
-while run:
-  clock.tick(FPS)
+def main():
+  global hangman_status
 
-  draw()
+  #setup game loop
+  FPS = 60 # max Frames per Second
+  clock = pygame.time.Clock()
+  run = True
+
+  while run:
+  clock.tick(FPS)
   
   for event in pygame.event.get(): #any event that has happend, will be stored in here
     if event.type == pygame.QUIT: # if red X Button clicked
@@ -100,7 +108,8 @@ while run:
             guessed.append(ltr)
             if ltr not in word:
               hangman_status += 1
-
+  draw()
+  
   won = True
   for letter in word:
     if letter not in guessed:
@@ -115,4 +124,6 @@ while run:
     display_message("You LOST!")
     break
 
+while True:
+  main()
 pygame.quit()
