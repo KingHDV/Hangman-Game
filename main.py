@@ -1,7 +1,6 @@
 import pygame
 import math
 import random
-import os
 
 pygame.init()
 
@@ -36,7 +35,7 @@ for i in range(7):
 
 #game variables
 hangman_status = 0
-words = ["IDE", "REPLIT", "PYTHON", "PYGAME", "GITHUB", "DEVELOPER"]
+words = ["IDE", "PYGAME", "PYTHON", "REPLIT", "GITHUB", "GAME"]
 word = random.choice(words)
 guessed = []
 
@@ -44,11 +43,16 @@ guessed = []
 WHITE = (255,255,255)
 BLACK = (0,0,0)
 
+#setup game loop
+FPS = 60 # max Frames per Second
+clock = pygame.time.Clock()
+run = True
+
 def draw():
   # update and refresh the display + draw current hangman status
   win.fill(WHITE)
-  
-  # draw title
+
+  # draw title 
   text = TITLE_FONT.render("DEVELOPER HANGMAN", 1, BLACK)
   win.blit(text, (WIDTH/2 - text.get_width()/2, 20))
 
@@ -82,15 +86,7 @@ def display_message(message):
   pygame.display.update()
   pygame.time.delay(3000)
 
-def main():
-  global hangman_status
-
-  #setup game loop
-  FPS = 60 # max Frames per Second
-  clock = pygame.time.Clock()
-  run = True
-
-  while run:
+while run:
   clock.tick(FPS)
   
   for event in pygame.event.get(): #any event that has happend, will be stored in here
@@ -124,6 +120,4 @@ def main():
     display_message("You LOST!")
     break
 
-while True:
-  main()
 pygame.quit()
